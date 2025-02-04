@@ -19,10 +19,13 @@ public class JournalEntryControllerV2 {
 
     @Autowired
     private JournalEntryRepo journalEntryRepo;
+    @Autowired
+    private com.Pareek.journalApp.service.journalEntryService journalEntryService;
 
-    @GetMapping
-    public ResponseEntity<?> getall() {
-        List<JournalEntry> temp= (journalEntryRepo.findAll());
+
+    @GetMapping("user/{username}")
+    public ResponseEntity<?> getallJournalEntriesofuser(@PathVariable String username) {
+        List<JournalEntry> temp= journalEntryService.getAllJournalEntrybyusername(username);
         if(!temp.isEmpty()){
             return new ResponseEntity<>(temp, HttpStatus.OK);
         }
@@ -32,8 +35,7 @@ public class JournalEntryControllerV2 {
     @PostMapping("addentry/{username}")
     public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry entry,@PathVariable String username) {
         try {
-            entry.setDate(LocalDateTime.now());
-            journalEntryRepo.save(entry);
+            journalEntryService.saveEntry(entry,username);
             return new ResponseEntity<>(entry, HttpStatus.CREATED);
         }
         catch (Exception e){
@@ -46,15 +48,12 @@ public class JournalEntryControllerV2 {
             Optional<JournalEntry> temp=journalEntryRepo.findById(myid);
 
             return temp.isPresent()? new ResponseEntity<>(temp.get(),HttpStatus.OK): new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-
-
     }
 
-    @DeleteMapping("id/{myid}")
-    public ResponseEntity<?> deleteEntryById(@PathVariable ObjectId myid){
-            journalEntryRepo.deleteById(myid);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @DeleteMapping("id/{username}/{myid}")
+    public ResponseEntity<?> deleteEntryById(@PathVariable ObjectId myid,@PathVariable String username){
+        journalEntryService.deleteJournalEntrybyID(myid, username);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("id/{myid}")

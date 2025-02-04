@@ -1,6 +1,7 @@
 package com.Pareek.journalApp.Controller;
 
 import com.Pareek.journalApp.Entity.JournalEntry;
+import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,27 +14,22 @@ import java.util.Map;
 @RestController
 @RequestMapping("/journal")
 public class JournalEntryController {
-    private Map<Long, JournalEntry> Entries = new HashMap<>();
+    private Map<ObjectId, JournalEntry> Entries = new HashMap<>();
 
     @GetMapping
     public List<JournalEntry> getall(){
         return new ArrayList<>(Entries.values());
     }
 
-    @PostMapping
-    public void createEntry(@RequestBody JournalEntry entry){
 
-        Entries.put(entry.getId(), entry);
-
-    }
 
     @GetMapping("id/{myid}")
-    public JournalEntry getEntryById(@PathVariable long myid){
+    public JournalEntry getEntryById(@PathVariable ObjectId myid){
         return Entries.get(myid);
     }
 
     @DeleteMapping("id/{myid}")
-    public JournalEntry deleteEntryById(@PathVariable Long myid){
+    public JournalEntry deleteEntryById(@PathVariable ObjectId myid){
 
         JournalEntry entry = Entries.get(myid);
         Entries.remove(myid);
@@ -41,7 +37,7 @@ public class JournalEntryController {
     }
 
     @PutMapping("id/{myid}")
-    public void updateEntryById(@PathVariable Long myid, @RequestBody JournalEntry entry){
+    public void updateEntryById(@PathVariable ObjectId myid, @RequestBody JournalEntry entry){
         Entries.put(myid, entry);
     }
 
