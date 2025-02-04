@@ -29,8 +29,8 @@ public class JournalEntryControllerV2 {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping
-    public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry entry){
+    @PostMapping("addentry/{username}")
+    public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry entry,@PathVariable String username) {
         try {
             entry.setDate(LocalDateTime.now());
             journalEntryRepo.save(entry);
