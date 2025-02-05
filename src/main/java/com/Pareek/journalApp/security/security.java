@@ -26,17 +26,15 @@ public class security {
 
 
         return http.authorizeHttpRequests(request -> request
-                        .requestMatchers("/public/**").permitAll()
-                        .requestMatchers("/journal/**", "/user/**").authenticated()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated())
+                        .requestMatchers("/admin/**","/user/**").authenticated()
+                        .anyRequest().permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
 
     @Autowired
-    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userdetailsderviceimpl).passwordEncoder(passwordEnc());
     }
 

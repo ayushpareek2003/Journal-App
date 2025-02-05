@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("user")
 public class UserController {
 
 
@@ -21,7 +21,6 @@ public class UserController {
 
 
     @GetMapping("")
-    @RequestMapping
     public ResponseEntity<List<User>> getall(){
         List<User> temp=userservice.getAllUsers();
 
@@ -40,13 +39,6 @@ public class UserController {
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
-    }
-
-    @PostMapping("newuser")
-    public ResponseEntity<User> adduser(@RequestBody User user){
-
-        userservice.saveUser(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @PutMapping
