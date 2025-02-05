@@ -22,13 +22,11 @@ public class journalEntryService {
 
     public void saveEntry(JournalEntry journalEntry,String name) {
         try {
-
-
             journalEntry.setDate(LocalDateTime.now());
             User temp = userservice.getUserByUsername(name);
             JournalEntry temp_saved = journalEntryRepo.save(journalEntry);
             temp.getEntries().add(temp_saved);
-            userservice.saveUser(temp);
+            userservice.updateUser(temp);
         }
         catch(Exception e) {
             throw new RuntimeException(e);

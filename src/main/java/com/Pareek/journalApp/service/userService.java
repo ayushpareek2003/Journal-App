@@ -28,6 +28,10 @@ public class userService {
 
     }
 
+    public void updateUser(User user) {
+        userRepo.save(user);
+    }
+
     public List<User> getAllUsers() {
         return userRepo.findAll();
     }

@@ -21,7 +21,7 @@ public class userDetailsServiceimpl implements UserDetailsService {
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 //        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
-//        String username = auth.getName();
+//        String username2 = auth.getName();
 
         if(username==null){
             throw new UsernameNotFoundException("Username not found");
