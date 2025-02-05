@@ -2,7 +2,6 @@ package com.Pareek.journalApp.Entity;
 
 import lombok.Data;
 import lombok.NonNull;
-import lombok.experimental.NonFinal;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -60,5 +59,7 @@ public class User {
 
     @DBRef
     private List<JournalEntry> entries=new ArrayList<>();
+
+    private List<String> roles;
 
 }

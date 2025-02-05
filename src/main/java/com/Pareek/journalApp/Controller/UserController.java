@@ -1,7 +1,6 @@
 package com.Pareek.journalApp.Controller;
 
 import com.Pareek.journalApp.Entity.User;
-import com.Pareek.journalApp.repository.UserRepo;
 import com.Pareek.journalApp.service.userService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
