@@ -45,4 +45,14 @@ public class journalEntryService {
         userservice.saveUser(temp_user);
         journalEntryRepo.deleteById(myid);
     }
+
+    public void updateJournalEntrybyID( ObjectId myid,JournalEntry journalEntry) {
+        JournalEntry temp=journalEntryRepo.findById(myid).get();
+        temp.setDate(LocalDateTime.now());
+        temp.setTitle(journalEntry.getTitle());
+        temp.setContent(journalEntry.getContent());
+        journalEntryRepo.save(temp);
+    }
+
+
 }

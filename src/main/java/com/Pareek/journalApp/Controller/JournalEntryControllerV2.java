@@ -1,7 +1,9 @@
 package com.Pareek.journalApp.Controller;
 
 import com.Pareek.journalApp.Entity.JournalEntry;
+import com.Pareek.journalApp.Entity.User;
 import com.Pareek.journalApp.repository.JournalEntryRepo;
+import com.Pareek.journalApp.repository.UserRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -24,6 +27,9 @@ public class JournalEntryControllerV2 {
     private JournalEntryRepo journalEntryRepo;
     @Autowired
     private com.Pareek.journalApp.service.journalEntryService journalEntryService;
+
+    @Autowired
+    private UserRepo userRepo;
 
 //--------------------------- Already done use "user/entries"-----------------------------------
 //    @GetMapping("user/{username}")
@@ -45,14 +51,36 @@ public class JournalEntryControllerV2 {
 
 
 //--------------------------------------------------------------------------------------------------------------------------------
-//    @GetMapping("id/{myid}")
-//    public ResponseEntity<JournalEntry> getEntryById(@PathVariable ObjectId myid){
-//            Optional<JournalEntry> temp=journalEntryRepo.findById(myid);
-//
-//            return temp.isPresent()? new ResponseEntity<>(temp.get(),HttpStatus.OK): new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
+    @GetMapping("id/{myid}")
+    public ResponseEntity<JournalEntry> getEntryById(@PathVariable ObjectId myid){
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String myName = auth.getName();
+            User user=userRepo.findByUsername(myName);
+
+            for(int i=0;i<user.getEntries().size();i++){
+                if(user.getEntries().get(i).getId().equals(myid)){
+                    return new ResponseEntity<>(user.getEntries().get(i),HttpStatus.OK);
+                }
+            }
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 //--------------------------------------------------------------------------------------------------------------------------------
 
+    @PutMapping("id/{myId}")
+    public ResponseEntity<?> updateEntry(@PathVariable ObjectId myId,@RequestBody JournalEntry entry){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String myName = auth.getName();
+        User user=userRepo.findByUsername(myName);
+
+        for(int i=0;i<user.getEntries().size();i++){
+            if(user.getEntries().get(i).getId().equals(myId)){
+                journalEntryService.updateJournalEntrybyID(myId,entry);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     @DeleteMapping("id/{myid}")
     public ResponseEntity<?> deleteEntryById(@PathVariable ObjectId myid){

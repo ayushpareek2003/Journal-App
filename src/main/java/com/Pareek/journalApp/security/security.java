@@ -27,6 +27,7 @@ public class security {
 
         return http.authorizeHttpRequests(request -> request
                         .requestMatchers("/webjournal/**","/user/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
