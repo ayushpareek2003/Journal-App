@@ -2,6 +2,7 @@ package com.Pareek.journalApp.service;
 
 import com.Pareek.journalApp.Entity.User;
 import com.Pareek.journalApp.repository.UserRepo;
+import com.Pareek.journalApp.repository.UserRepoImpl;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,7 +20,16 @@ public class userService {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private UserRepoImpl userRepoImpl;
+
     private static final PasswordEncoder passenc=new BCryptPasswordEncoder();
+
+
+
+    public List<User> userswithEmail(){
+        return userRepoImpl.getUserWithEmail();
+    }
 
     public void saveUser(User user) {
         user.setPassword(passenc.encode(user.getPassword()));

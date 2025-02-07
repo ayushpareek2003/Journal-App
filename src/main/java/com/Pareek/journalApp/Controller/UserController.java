@@ -37,6 +37,10 @@ public class UserController {
 //-----------------------------------------------------------------------------
 
 
+
+
+
+
     @GetMapping("entries")
     public ResponseEntity<?> getUserDetails() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
