@@ -1,6 +1,7 @@
 package com.Pareek.journalApp.Entity;
 
 
+import com.Pareek.journalApp.enums.Sentiment;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
@@ -51,5 +52,15 @@ public class JournalEntry {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    private Sentiment sentiment;
+
+    public Sentiment getSentiment() {
+        return sentiment;
+    }
+
+    public void setSentiment(Sentiment sentiment) {
+        this.sentiment = sentiment;
     }
 }
